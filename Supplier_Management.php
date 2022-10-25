@@ -28,22 +28,23 @@ if (isset($_SESSION['us']) == false) {
             if (isset($_GET["function"]) == "del") {
                 if (isset($_GET["id"])) {
                     $id = $_GET["id"];
-                    pg_query($conn, "DELETE FROM category WHERE cate_id = '$id'");
-                    echo '<meta http-equiv="refresh" content = "0; URL=?page=category_management"/>';
+                    pg_query($conn, "DELETE FROM supplier WHERE sup_id = '$id'");
+                    echo '<meta http-equiv="refresh" content = "0; URL=?page=sup_management"/>';
                 }
             }
             ?>
             <form name="frm" method="post" action="">
-                <h1>Product Category</h1>
+                <h1>Product Supplier</h1>
                 <p>
-                    <img src="images/add.png" alt="Add new" width="16" height="16" border="0" /> <a href="?page=add_category"> Add</a>
+                    <img src="images/add.png" alt="Add new" width="16" height="16" border="0" /> <a href="?page=add_supplier"> Add</a>
                 </p>
                 <table id="tablecategory" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th><strong>Category ID</strong></th>
-                            <th><strong>Category Name</strong></th>
-                            <th><strong>Description</strong></th>
+                            <th><strong>Supplier ID</strong></th>
+                            <th><strong>Supplier Name</strong></th>
+                            <th><strong>Supplier Mail</strong></th>
+                            <th><strong>Supplier Phone</strong></th>
                             <th><strong>Delete</strong></th>
                         </tr>
                     </thead>
@@ -51,16 +52,17 @@ if (isset($_SESSION['us']) == false) {
                     <tbody>
                         <?php
                         $No = 1;
-                        $result = pg_query($conn, "SELECT * FROM category");
+                        $result = pg_query($conn, "SELECT * FROM supplier");
                         while ($row = pg_fetch_array($result)) {
 
                         ?>
                             <tr>
-                                <td><?php echo $row["cate_id"]; ?></td>
-                                <td><?php echo $row["cate_name"]; ?></td>
-                                <td><?php echo $row["des"]; ?></td>
+                                <td><?php echo $row["sup_id"]; ?></td>
+                                <td><?php echo $row["sup_name"]; ?></td>
+                                <td><?php echo $row["sup_mail"]; ?></td>
+                                <td><?php echo $row["sup_phone"]; ?></td>
                                 <td style='text-align:center'>
-                                    <a href="?page=category_management&&function=del&&id=<?php echo $row["cate_id"] ?>" onclick="return deleteConfirm()">
+                                    <a href="?page=supplier_management&&function=del&&id=<?php echo $row["sup_id"] ?>" onclick="return deleteConfirm()">
                                         <img src='images/delete.png' border='0' />
                                     </a>
                                 </td>

@@ -5,31 +5,49 @@
 	include_once("connection.php");
 	function bind_Category_List($conn)
 	{
-		$sqlstring = "SELECT Cat_ID, Cat_Name from category";
-		$result = mysqli_query($conn, $sqlstring);
+		$sqlstring = "SELECT * FROM category";
+		$result = pg_query($conn, $sqlstring);
 		echo "<select name='CategoryList' class='form-control'>
 					<option value='0'>Choose category</option>";
-		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-			echo "<option value='" . $row['Cat_ID'] . "'>" . $row['Cat_Name'] . "</option>";
+		while ($row = pg_fetch_array($result)) {
+			echo "<option value='" . $row['cate_id'] . "'>" . $row['cate_name'] . "</option>";
+		}
+		echo "</select>";
+	}
+	function bind_Supplier_List($conn)
+	{
+		$sqlstring = "SELECT * FROM supplier";
+		$result = pg_query($conn, $sqlstring);
+		echo "<select name='SupplierList' class='form-control'>
+					<option value='0'>Choose supplier</option>";
+		while ($row = pg_fetch_array($result)) {
+			echo "<option value='" . $row['sup_id'] . "'>" . $row['sup_name'] . "</option>";
+		}
+		echo "</select>";
+	}
+	function bind_Shop_List($conn)
+	{
+		$sqlstring = "SELECT * FROM shop";
+		$result = pg_query($conn, $sqlstring);
+		echo "<select name='ShopList' class='form-control'>
+					<option value='0'>Choose shop</option>";
+		while ($row = pg_fetch_array($result)) {
+			echo "<option value='" . $row['shop_id'] . "'>" . $row['shop_name'] . "</option>";
 		}
 		echo "</select>";
 	}
 	if(isset($_POST["btnAdd"]))
 	{
-		$id = $_POST["txtID"];
 		$proname = $_POST["txtName"];
-		$short = $_POST["txtShort"];
 		$detail = $_POST["txtDetail"];
 		$price = $_POST["txtPrice"];
 		$qty = $_POST["txtQty"];
 		$pic = $_FILES["txtImage"];
 		$category = $_POST["CategoryList"];
+		$supplier = $_POST["SupplierList"];
+		$shop = $_POST["ShopList"];
 		$err = "";
 
-		if(trim($id) == "")
-		{
-			$err.="<li>Enter product ID, please</li>";
-		}
 		if(trim($proname) == "")
 		{
 			$err.="<li>Enter product Name, please</li>";
@@ -56,16 +74,16 @@
 			{
 				if($pic["size"] < 614400)
 				{
-					$sq = "SELECT * FROM product WHERE Product_ID = '$id' or Product_Name = '$proname'";
-					$result = mysqli_query($conn, $sq);
-					if(mysqli_num_rows($result) == 0)
+					$sq = "SELECT * FROM product WHERE pro_name = '$proname'";
+					$result = pg_query($conn, $sq);
+					if(pg_num_rows($result) == 0)
 					{
 						copy($pic['tmp_name'], "product-imgs/".$pic['name']);
 						$filePic = $pic['name'];
-						$sqlstring = "INSERT INTO product (Product_ID, Product_Name, Price, SmallDesc, DetailDesc, ProDate, Pro_qty, Pro_image, Cat_ID)
-										VALUES ('$id', '$proname', '$price', '$short', '$detail', '".date('Y-m-d H:i:s')."', $qty, '$filePic', '$category')";
-						mysqli_query($conn, $sqlstring);
-						echo '<meta http-equiv="refresh" content = "0; URL=Product_Management.php"/>';
+						$sqlstring = "INSERT INTO product (pro_name, quantity, price, description, shop_id, sup_id, pro_img, cate_id)
+													VALUES ('$proname', $qty, $price, '$detail', '$shop', '$supplier', '$filePic', '$category')";
+						pg_query($conn, $sqlstring);
+						echo '<meta http-equiv="refresh" content = "0; URL=?page=product_management"/>';
 					}
 					else
 					{
@@ -89,12 +107,6 @@
 
     	<form id="frmProduct" name="frmProduct" method="post" enctype="multipart/form-data" action="" class="form-horizontal" role="form">
     		<div class="form-group">
-    			<label for="txtTen" class="col-sm-2 control-label">Product ID(*): </label>
-    			<div class="col-sm-10">
-    				<input type="text" name="txtID" id="txtID" class="form-control" placeholder="Product ID" value='' />
-    			</div>
-    		</div>
-    		<div class="form-group">
     			<label for="txtTen" class="col-sm-2 control-label">Product Name(*): </label>
     			<div class="col-sm-10">
     				<input type="text" name="txtName" id="txtName" class="form-control" placeholder="Product Name" value='' />
@@ -108,7 +120,21 @@
 					?>
     			</div>
     		</div>
-
+			<div class="form-group">
+    			<label for="" class="col-sm-2 control-label">Product supplier(*): </label>
+    			<div class="col-sm-10">
+    				<?php
+					bind_Supplier_List($conn);
+					?>
+    			</div>
+    		</div><div class="form-group">
+    			<label for="" class="col-sm-2 control-label">Shop(*): </label>
+    			<div class="col-sm-10">
+    				<?php
+					bind_Shop_List($conn);
+					?>
+    			</div>
+    		</div>
     		<div class="form-group">
     			<label for="lblGia" class="col-sm-2 control-label">Price(*): </label>
     			<div class="col-sm-10">
@@ -117,14 +143,7 @@
     		</div>
 
     		<div class="form-group">
-    			<label for="lblShort" class="col-sm-2 control-label">Short description(*): </label>
-    			<div class="col-sm-10">
-    				<input type="text" name="txtShort" id="txtShort" class="form-control" placeholder="Short description" value='' />
-    			</div>
-    		</div>
-
-    		<div class="form-group">
-    			<label for="lblDetail" class="col-sm-2 control-label">Detail description(*): </label>
+    			<label for="lblDetail" class="col-sm-2 control-label">Description(*): </label>
     			<div class="col-sm-10">
     				<textarea name="txtDetail" rows="4" class="ckeditor"></textarea>
     				<script language="javascript">

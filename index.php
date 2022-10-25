@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABC - Electronics supermarket</title>
+    <title>ABC - TOY STORE</title>
 
     <!-- Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
@@ -55,29 +55,7 @@
         <!--header-->
         <div class="header_top">
             <!--header_top-->
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="contactinfo">
-                            <ul class="nav nav-pills">
-                                <li><a href="#"><i class="fa fa-phone"></i> +84 7103 888 999</a></li>
-                                <li><a href="#"><i class="fa fa-envelope"></i> admin@gmail.com</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="social-icons pull-right">
-                            <ul class="nav navbar-nav">
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <!--/header_top-->
 
@@ -87,7 +65,7 @@
                 <div>
                     <div class="col-sm-6">
                         <div class="logo pull-left">
-                            <a href="index.php" style="background-color:#069;color:#FFF">ABC
+                            <a href="index.php" style="background-color:#069;color:#FFF">TOY
                                 <img src="images1/logoABC.png" width="70" height="70"></a>
                         </div>
                     </div>
@@ -139,28 +117,47 @@
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
                                 <li><a href="index.php" class="active">Home</a></li>
-                                <li class="dropdown"><a href="#">Introduction<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="">History</a></li>
-                                        <li><a href="">Branch system</a></li>
-                                        <li><a href="">Payments</a></li>
-                                    </ul>
-                                </li>
                                 <li class="dropdown"><a href="#">Management<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="?page=category_management">Category</a></li>
+                                        <li><a href="?page=supplier_management">Supplier</a></li>
+                                        <li><a href="?page=shop_management">Shop</a></li>
                                         <li><a href="?page=product_management">Product</a></li>
                                     </ul>
                                 </li>
+                                <li class="dropdown"><a href="#">Category<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                    <?php
+                                        $res = pg_query($conn, "SELECT * FROM category");
+                                        if (!$res) {
+                                            die("Invalid query:  " . pg_errormessage($conn));
+                                        }
+                                        while ($row = pg_fetch_array($res)) {
+                                        ?>
+                                            <li><a href="?page=search&&cate_id=<?php echo $row['cate_id'] ?>"><?php echo $row['cate_name']; ?></a></li>
+                                        <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                </li>
+                                <li class="dropdown"><a href="#">Supplier<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <?php
+                                        $res = pg_query($conn, "SELECT * FROM supplier");
+                                        if (!$res) {
+                                            die("Invalid query:  " . pg_errormessage($conn));
+                                        }
+                                        while ($row = pg_fetch_array($res)) {
+                                        ?>
+                                            <li><a href="?page=search&&sup_id=<?php echo $row['sup_id'] ?>"><?php echo $row['sup_name']; ?></a></li>
+                                        <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                </li>
                                 <li><a href="#">Cart</a></li>
-                                <li><a href="#">Feedback</a></li>
                                 <li><a href="#">Contact</a></li>
                             </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="search_box pull-right">
-                            <input type="text" placeholder="Search" />
                         </div>
                     </div>
                 </div>
@@ -179,17 +176,29 @@
             include_once("Login.php");
         } elseif ($page == "category_management") {
             include_once("Category_Management.php");
+        } elseif ($page == "supplier_management") {
+            include_once("Supplier_Management.php");
+        } elseif ($page == "shop_management") {
+            include_once("Shop_Management.php");
         } elseif ($page == "product_management") {
             include_once("Product_Management.php");
         } elseif ($page == "add_category") {
             include_once("Add_Category.php");
+        } elseif ($page == "add_product") {
+            include_once("Add_Product.php");
+        } elseif ($page == "add_shop") {
+            include_once("Add_Shop.php");
+        } elseif ($page == "view") {
+            include_once("View.php");
+        } elseif ($page == "add_supplier") {
+            include_once("Add_Supplier.php");
         } elseif ($page == "update_category") {
             include_once("Update_Category.php");
         } elseif ($page == "logout") {
             include_once("Logout.php");
-        }
-        elseif ($page == "update_customer")
-        {
+        } elseif ($page == "search") {
+            include_once("Search.php");
+        } elseif ($page == "update_customer") {
             include_once("Update_customer.php");
         }
     } else {
@@ -197,8 +206,7 @@
     }
     ?>
 
-    <div class="footer-top-area">
-        <div class="zigzag-bottom"></div>
+    <div class="footer-top-area mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-3 col-sm-6">
@@ -261,7 +269,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="copyright">
-                        <p>&copy; 2020 ABC-Electronics supermarket</p>
+                        <p>&copy; 2022 ABC-Electronics supermarket</p>
                     </div>
                 </div>
 

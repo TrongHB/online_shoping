@@ -28,22 +28,23 @@ if (isset($_SESSION['us']) == false) {
             if (isset($_GET["function"]) == "del") {
                 if (isset($_GET["id"])) {
                     $id = $_GET["id"];
-                    pg_query($conn, "DELETE FROM category WHERE cate_id = '$id'");
-                    echo '<meta http-equiv="refresh" content = "0; URL=?page=category_management"/>';
+                    pg_query($conn, "DELETE FROM shop WHERE shop_id = '$id'");
+                    echo '<meta http-equiv="refresh" content = "0; URL=?page=shop_management"/>';
                 }
             }
             ?>
             <form name="frm" method="post" action="">
-                <h1>Product Category</h1>
+                <h1>Shop</h1>
                 <p>
-                    <img src="images/add.png" alt="Add new" width="16" height="16" border="0" /> <a href="?page=add_category"> Add</a>
+                    <img src="images/add.png" alt="Add new" width="16" height="16" border="0" /> <a href="?page=add_shop"> Add</a>
                 </p>
-                <table id="tablecategory" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <table id="tableshop" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th><strong>Category ID</strong></th>
-                            <th><strong>Category Name</strong></th>
-                            <th><strong>Description</strong></th>
+                            <th><strong>Shop ID</strong></th>
+                            <th><strong>Shop Name</strong></th>
+                            <th><strong>Shop Mail</strong></th>
+                            <th><strong>Shop Address</strong></th>
                             <th><strong>Delete</strong></th>
                         </tr>
                     </thead>
@@ -51,16 +52,17 @@ if (isset($_SESSION['us']) == false) {
                     <tbody>
                         <?php
                         $No = 1;
-                        $result = pg_query($conn, "SELECT * FROM category");
+                        $result = pg_query($conn, "SELECT * FROM shop");
                         while ($row = pg_fetch_array($result)) {
 
                         ?>
                             <tr>
-                                <td><?php echo $row["cate_id"]; ?></td>
-                                <td><?php echo $row["cate_name"]; ?></td>
-                                <td><?php echo $row["des"]; ?></td>
+                                <td><?php echo $row["shop_id"]; ?></td>
+                                <td><?php echo $row["shop_name"]; ?></td>
+                                <td><?php echo $row["mail"]; ?></td>
+                                <td><?php echo $row["address"]; ?></td>
                                 <td style='text-align:center'>
-                                    <a href="?page=category_management&&function=del&&id=<?php echo $row["cate_id"] ?>" onclick="return deleteConfirm()">
+                                    <a href="?page=shop_management&&function=del&&id=<?php echo $row["shop_id"] ?>" onclick="return deleteConfirm()">
                                         <img src='images/delete.png' border='0' />
                                     </a>
                                 </td>
