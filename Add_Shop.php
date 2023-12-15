@@ -24,9 +24,9 @@ if (isset($_POST["btnAdd"])) {
 	} else {
 		include_once("connection.php");
 		$sq = "SELECT * FROM public.shop where shop_name = '$name'";
-		$result = pg_query($conn, $sq);
-		if (pg_num_rows($result) == 0) {
-			pg_query($conn, "INSERT INTO shop (shop_name, mail, address) VALUES ('$name', '$mail','$phone')");
+		$result = mysqli_query($conn, $sq);
+		if (mysqli_num_rows($result) == 0) {
+			mysqli_query($conn, "INSERT INTO shop (shop_name, mail, address) VALUES ('$name', '$mail','$phone')");
 			echo '<meta http-equiv="refresh" content = "0; URL=?page=shop_management"/>';
 		} else {
 			echo "<li>Duplicate shop ID or Name</li>";

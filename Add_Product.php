@@ -6,33 +6,33 @@
 	function bind_Category_List($conn)
 	{
 		$sqlstring = "SELECT * FROM category";
-		$result = pg_query($conn, $sqlstring);
+		$result = mysqli_query($conn, $sqlstring);
 		echo "<select name='CategoryList' class='form-control'>
 					<option value='0'>Choose category</option>";
-		while ($row = pg_fetch_array($result)) {
-			echo "<option value='" . $row['cate_id'] . "'>" . $row['cate_name'] . "</option>";
+		while ($row = mysqli_fetch_array($result)) {
+			echo "<option value='" . $row['Cat_ID'] . "'>" . $row['Cat_Name'] . "</option>";
 		}
 		echo "</select>";
 	}
 	function bind_Supplier_List($conn)
 	{
 		$sqlstring = "SELECT * FROM supplier";
-		$result = pg_query($conn, $sqlstring);
+		$result = mysqli_query($conn, $sqlstring);
 		echo "<select name='SupplierList' class='form-control'>
 					<option value='0'>Choose supplier</option>";
-		while ($row = pg_fetch_array($result)) {
-			echo "<option value='" . $row['sup_id'] . "'>" . $row['sup_name'] . "</option>";
+		while ($row = mysqli_fetch_array($result)) {
+			echo "<option value='" . $row['Sup_ID'] . "'>" . $row['Sup_Name'] . "</option>";
 		}
 		echo "</select>";
 	}
 	function bind_Shop_List($conn)
 	{
 		$sqlstring = "SELECT * FROM shop";
-		$result = pg_query($conn, $sqlstring);
+		$result = mysqli_query($conn, $sqlstring);
 		echo "<select name='ShopList' class='form-control'>
 					<option value='0'>Choose shop</option>";
-		while ($row = pg_fetch_array($result)) {
-			echo "<option value='" . $row['shop_id'] . "'>" . $row['shop_name'] . "</option>";
+		while ($row = mysqli_fetch_array($result)) {
+			echo "<option value='" . $row['Shop_ID'] . "'>" . $row['Shop_Name'] . "</option>";
 		}
 		echo "</select>";
 	}
@@ -74,15 +74,15 @@
 			{
 				if($pic["size"] < 614400)
 				{
-					$sq = "SELECT * FROM product WHERE pro_name = '$proname'";
-					$result = pg_query($conn, $sq);
-					if(pg_num_rows($result) == 0)
+					$sq = "SELECT * FROM product WHERE Product_Name = '$proname'";
+					$result = mysqli_query($conn, $sq);
+					if(mysqli_num_rows($result) == 0)
 					{
 						copy($pic['tmp_name'], "product-imgs/".$pic['name']);
 						$filePic = $pic['name'];
-						$sqlstring = "INSERT INTO product (pro_name, quantity, price, description, shop_id, sup_id, pro_img, cate_id)
+						$sqlstring = "INSERT INTO product (Product_Name, Pro_qty, Price, DetailDesc, Shop_ID, Sup_ID, Pro_image, Cat_ID)
 													VALUES ('$proname', $qty, $price, '$detail', '$shop', '$supplier', '$filePic', '$category')";
-						pg_query($conn, $sqlstring);
+						mysqli_query($conn, $sqlstring);
 						echo '<meta http-equiv="refresh" content = "0; URL=?page=product_management"/>';
 					}
 					else

@@ -27,9 +27,9 @@ if (isset($_POST['btnLogin'])) {
 	} else {
 		include_once("connection.php");
 		$pass = md5($pa);
-		$res = pg_query($conn, "SELECT * FROM customer WHERE username = '$us' AND password = '$pass'") or die(pg_errormessage($conn));
-		$row = pg_fetch_array($res);
-		if (pg_num_rows($res) == 1) {
+		$res = mysqli_query($conn, "SELECT * FROM customer WHERE username = '$us' AND password = '$pass'") or die(mysqli_error($conn));
+		$row = mysqli_fetch_array($res);
+		if (mysqli_num_rows($res) == 1) {
 			$_SESSION["us"] = $us;
 			$_SESSION["admin"] = $row["role"];
 			echo '<meta http-equiv="refresh" content = "0; URL=index.php"/>';

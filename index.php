@@ -128,13 +128,13 @@
                                 <li class="dropdown"><a href="#">Category<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                     <?php
-                                        $res = pg_query($conn, "SELECT * FROM category");
+                                        $res = mysqli_query($conn, "SELECT * FROM category");
                                         if (!$res) {
-                                            die("Invalid query:  " . pg_errormessage($conn));
+                                            die("Invalid query:  " . mysqli_error($conn));
                                         }
-                                        while ($row = pg_fetch_array($res)) {
+                                        while ($row = mysqli_fetch_array($res)) {
                                         ?>
-                                            <li><a href="?page=search&&cate_id=<?php echo $row['cate_id'] ?>"><?php echo $row['cate_name']; ?></a></li>
+                                            <li><a href="?page=search&&cate_id=<?php echo $row['Cat_ID'] ?>"><?php echo $row['Cat_Name']; ?></a></li>
                                         <?php
                                         }
                                         ?>
@@ -143,13 +143,13 @@
                                 <li class="dropdown"><a href="#">Supplier<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <?php
-                                        $res = pg_query($conn, "SELECT * FROM supplier");
+                                        $res = mysqli_query($conn, "SELECT * FROM supplier");
                                         if (!$res) {
-                                            die("Invalid query:  " . pg_errormessage($conn));
+                                            die("Invalid query:  " . mysqli_error($conn));
                                         }
-                                        while ($row = pg_fetch_array($res)) {
+                                        while ($row = mysqli_fetch_array($res)) {
                                         ?>
-                                            <li><a href="?page=search&&sup_id=<?php echo $row['sup_id'] ?>"><?php echo $row['sup_name']; ?></a></li>
+                                            <li><a href="?page=search&&sup_id=<?php echo $row['Sup_ID'] ?>"><?php echo $row['Sup_Name']; ?></a></li>
                                         <?php
                                         }
                                         ?>

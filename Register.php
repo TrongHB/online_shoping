@@ -33,12 +33,12 @@ if (isset($_POST['btnRegister'])) {
     } else {
         include_once("connection.php");
         $pass = md5($pass1);
-        $sq = "SELECT * FROM customer WHERE username = '$us'";
-        $res = pg_query($conn, $sq);
-        if (pg_num_rows($res) == 0) {
-            pg_query($conn, "INSERT INTO customer (username, password, cus_name, address, phone, mail, role)
-                                    VALUES ('$us', '$pass', '$fullname', '$address', '$tel', '$email', false)")
-                or die(pg_errormessage($conn));
+        $sq = "SELECT * FROM customer WHERE Username = '$us'";
+        $res = mysqli_query($conn, $sq);
+        if (mysqli_num_rows($res) == 0) {
+            mysqli_query($conn, "INSERT INTO customer (Username, Password, CustName, Address, telephone, email)
+                                    VALUES ('$us', '$pass', '$fullname', '$address', '$tel', '$email')")
+                or die(mysqli_error($conn));
             echo "You have registered successfully";
             echo '<meta http-equiv="refresh" content = "0; URL=?page=login"/>';
 

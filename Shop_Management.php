@@ -28,7 +28,7 @@ if (isset($_SESSION['us']) == false) {
             if (isset($_GET["function"]) == "del") {
                 if (isset($_GET["id"])) {
                     $id = $_GET["id"];
-                    pg_query($conn, "DELETE FROM shop WHERE shop_id = '$id'");
+                    mysqli_query($conn, "DELETE FROM shop WHERE shop_id = '$id'");
                     echo '<meta http-equiv="refresh" content = "0; URL=?page=shop_management"/>';
                 }
             }
@@ -52,8 +52,8 @@ if (isset($_SESSION['us']) == false) {
                     <tbody>
                         <?php
                         $No = 1;
-                        $result = pg_query($conn, "SELECT * FROM shop");
-                        while ($row = pg_fetch_array($result)) {
+                        $result = mysqli_query($conn, "SELECT * FROM shop");
+                        while ($row = mysqli_fetch_array($result)) {
 
                         ?>
                             <tr>

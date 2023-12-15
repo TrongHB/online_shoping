@@ -5,8 +5,8 @@ include_once("connection.php");
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
     $sq = "SELECT * FROM product WHERE pro_id ='$id'";
-    $res = pg_query($conn, $sq);
-    $row = pg_fetch_array($res)
+    $res = mysqli_query($conn, $sq);
+    $row = mysqli_fetch_array($res)
 
 ?>
     <div class="container" style="padding-bottom: 100px;">

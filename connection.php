@@ -1,6 +1,15 @@
 <?php
-$conn = pg_connect("postgres://yqlyidtbqsygjx:6585eb33cfdd7a8286439ef1469a03aeb193a22d50cc8180b36e30468e144d45@ec2-54-160-200-167.compute-1.amazonaws.com:5432/dcflavd47l2dgs");
-if (!$conn) {
-    die("Connection fail");
+$host="localhost";
+$username="root";
+$password="";
+$database="online_shopping";
+$conn= mysqli_connect($host,$username,$password,$database);
+mysqli_query($conn,"SET NAMES 'utf8'");
+if (mysqli_connect_error())
+{
+echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
+else
+{ echo "Success to connect to MySQL"; }
 ?>
+

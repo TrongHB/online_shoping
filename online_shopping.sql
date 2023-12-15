@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2020 at 07:01 AM
--- Server version: 10.1.29-MariaDB
--- PHP Version: 7.0.26
+-- Generation Time: Dec 15, 2023 at 06:55 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,16 +31,16 @@ CREATE TABLE `category` (
   `Cat_ID` varchar(10) NOT NULL,
   `Cat_Name` varchar(30) NOT NULL,
   `Cat_Des` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `category`
 --
 
 INSERT INTO `category` (`Cat_ID`, `Cat_Name`, `Cat_Des`) VALUES
-('C001', 'Iphone', 'Iphone Product'),
-('C002', 'Ipad', 'Ipad Product'),
-('C003', 'Desktop computer', 'Desktop computer product');
+('C001', 'Luffy', 'Luffy Product'),
+('C002', 'Sanj', 'Sanj Product'),
+('C003', 'Itachi', 'Itachi product');
 
 -- --------------------------------------------------------
 
@@ -53,25 +52,19 @@ CREATE TABLE `customer` (
   `Username` varchar(20) NOT NULL,
   `Password` varchar(40) NOT NULL,
   `CustName` varchar(30) NOT NULL,
-  `gender` int(11) NOT NULL,
   `Address` varchar(1000) NOT NULL,
   `telephone` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `CusDate` int(11) NOT NULL,
-  `CusMonth` int(11) NOT NULL,
-  `CusYear` int(11) NOT NULL,
-  `SSN` varchar(10) DEFAULT NULL,
-  `ActiveCode` varchar(100) NOT NULL,
-  `state` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `email` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`Username`, `Password`, `CustName`, `gender`, `Address`, `telephone`, `email`, `CusDate`, `CusMonth`, `CusYear`, `SSN`, `ActiveCode`, `state`) VALUES
-('Finn', 'e10adc3949ba59abbe56e057f20f883e', 'Nguyen Hung Dung', 0, 'Can Tho', '0903100550', 'nhdung.CPL@gmail.com', 31, 8, 1980, '', '', 0),
-('nhdung', 'e10adc3949ba59abbe56e057f20f883e', 'Nguyen Hung Dung', 0, 'Can Thow', '0903100550', 'nhdung@gmail.com', 31, 8, 1980, '', '', 0);
+INSERT INTO `customer` (`Username`, `Password`, `CustName`, `Address`, `telephone`, `email`) VALUES
+('Finn', 'e10adc3949ba59abbe56e057f20f883e', 'Nguyen Hung Dung', 'Can Tho', '0903100550', 'nhdung.CPL@gmail.com'),
+('nhdung', 'e10adc3949ba59abbe56e057f20f883e', 'Nguyen Hung Dung', 'Can Thow', '0903100550', 'nhdung@gmail.com'),
+('trong', 'e10adc3949ba59abbe56e057f20f883e', 'trong', '0987654567', '0327281160', 'tronghbgcc200034@fpt.edu.vn');
 
 -- --------------------------------------------------------
 
@@ -86,7 +79,7 @@ CREATE TABLE `orders` (
   `Delivery_loca` varchar(200) NOT NULL,
   `Payment` int(11) NOT NULL,
   `username` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -104,17 +97,58 @@ CREATE TABLE `product` (
   `ProDate` datetime NOT NULL,
   `Pro_qty` int(11) NOT NULL,
   `Pro_image` varchar(200) NOT NULL,
-  `Cat_ID` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Cat_ID` varchar(10) NOT NULL,
+  `Shop_ID` int(11) NOT NULL,
+  `Sup_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`Product_ID`, `Product_Name`, `Price`, `oldPrice`, `SmallDesc`, `DetailDesc`, `ProDate`, `Pro_qty`, `Pro_image`, `Cat_ID`) VALUES
-('P001', 'Iphone 11 Pro Max', 28000000, '0.00', 'New Iphone', '<p>\r\n	New Iphone of Apple in 2019</p>\r\n', '2020-07-09 04:33:51', 30, 'Iphone11Promax.jpg', 'C001'),
-('P002', 'Ipad pro', 20000000, '0.00', 'New Ipad ', '<p>\r\n	New Ipad of Apple in 2019</p>\r\n', '2020-07-09 04:32:51', 10, 'ipad_pro_11.png', 'C002'),
-('P003', 'User Computer Desktop', 15000000, '0.00', 'Computer Desktop with new Generation', '<p>\r\n	Computer Desktop with new Generation</p>\r\n', '2020-07-09 06:56:00', 20, 'computer-desktop.jpeg', 'C003');
+INSERT INTO `product` (`Product_ID`, `Product_Name`, `Price`, `oldPrice`, `SmallDesc`, `DetailDesc`, `ProDate`, `Pro_qty`, `Pro_image`, `Cat_ID`, `Shop_ID`, `Sup_ID`) VALUES
+('P001', 'Luffy Gear 4', 28000000, 0.00, '', '<p> Luffy Gear 4\r\n	</p>\r\n', '2020-07-09 04:33:51', 30, 'luffy1.jpg', 'C001', 0, 0),
+('P002', 'Sanj', 20000000, 0.00, 'Sanj', '<p> Sanj\r\n	</p>\r\n', '2020-07-09 04:32:51', 10, 'sanj.jpg', 'C002', 0, 0),
+('P003', 'Itachi', 15000000, 0.00, '', '<p> Itachi figure\r\n	</p>\r\n', '2020-07-09 06:56:00', 20, 'itachi.jpg', 'C003', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop`
+--
+
+CREATE TABLE `shop` (
+  `Shop_ID` int(11) NOT NULL,
+  `Shop_Name` varchar(50) NOT NULL,
+  `Address` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `shop`
+--
+
+INSERT INTO `shop` (`Shop_ID`, `Shop_Name`, `Address`) VALUES
+(1, 'Shop 1', ''),
+(2, 'Shop 2', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `Sup_ID` int(11) NOT NULL,
+  `Sup_Name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`Sup_ID`, `Sup_Name`) VALUES
+(1, 'svfsd'),
+(2, 'sdsd');
 
 --
 -- Indexes for dumped tables
@@ -145,6 +179,18 @@ ALTER TABLE `orders`
 ALTER TABLE `product`
   ADD PRIMARY KEY (`Product_ID`),
   ADD KEY `Cat_ID` (`Cat_ID`);
+
+--
+-- Indexes for table `shop`
+--
+ALTER TABLE `shop`
+  ADD PRIMARY KEY (`Shop_ID`);
+
+--
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`Sup_ID`);
 
 --
 -- Constraints for dumped tables
